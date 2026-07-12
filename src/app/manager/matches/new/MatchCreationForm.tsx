@@ -60,9 +60,9 @@ export default function MatchCreationForm({ clubs }: { clubs: { id: string, name
       <button
         type="submit"
         disabled={isPending}
-        className="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-600/30"
+        className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-600/30"
       >
-        {isPending ? 'Creating Match...' : 'Create Match'}
+        {isPending ? 'Preparing Match...' : 'Continue to Player Selection →'}
       </button>
     </form>
   )

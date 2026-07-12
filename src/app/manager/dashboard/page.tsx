@@ -60,9 +60,9 @@ export default async function ManagerDashboard() {
           <div className="flex flex-col sm:flex-row gap-3">
             <Link 
               href="/manager/matches/new"
-              className="bg-green-600 hover:bg-green-500 text-white px-5 py-2.5 rounded-xl font-bold transition flex items-center justify-center flex-1 sm:flex-none text-sm shadow-lg shadow-green-900/20"
+              className="bg-pitch-green hover:bg-emerald-600 text-white px-6 py-2.5 rounded-xl font-black uppercase tracking-widest transition-all flex items-center justify-center flex-1 sm:flex-none text-sm shadow-lg shadow-emerald-900/30 border border-emerald-500/50"
             >
-              + Single Match
+              + Score a Match
             </Link>
             
             <Link 
