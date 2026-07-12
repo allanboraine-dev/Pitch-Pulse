@@ -69,27 +69,30 @@ export default function LiveScorecard({
   const isCompleted = status === 'completed';
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white flex flex-col">
-      <div className={`text-center py-2 text-sm font-bold tracking-wider uppercase ${isCompleted ? 'bg-green-600 text-white' : 'bg-blue-600 text-white'}`}>
-        {isCompleted ? 'Completed Match 🏆' : 'Live Match 🔴'}
+    <div className="min-h-screen text-white flex flex-col font-sans">
+      {/* Broadcast Header Bar */}
+      <div className={`text-center py-3 px-4 text-sm font-black tracking-widest uppercase flex items-center justify-center gap-3 shadow-lg shadow-black/50 border-b border-gray-800/50 ${isCompleted ? 'bg-gradient-to-r from-green-800 to-green-600' : 'bg-gradient-to-r from-gray-900 to-gray-800'}`}>
+        {!isCompleted && <div className="h-2.5 w-2.5 bg-red-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.8)]"></div>}
+        {isCompleted ? 'Completed Match 🏆' : 'Live Broadcast'}
+        {!isCompleted && <div className="h-2.5 w-2.5 bg-red-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.8)]"></div>}
       </div>
       
       {isCompleted && result && (
-        <div className="bg-gray-900 border-b border-gray-800 text-center py-4 px-6 text-green-400 font-bold text-lg">
+        <div className="bg-gray-950/80 backdrop-blur-md border-b border-gray-800 text-center py-4 px-6 text-green-400 font-black text-xl shadow-inner">
           {result}
         </div>
       )}
 
       {hasInnings2 && (
-        <div className="flex bg-gray-900 border-b border-gray-800">
+        <div className="flex bg-gray-950/80 backdrop-blur-md border-b border-gray-800/50">
           <button 
-            className={`flex-1 py-3 text-sm font-bold transition-colors ${viewingInnings === 1 ? 'bg-blue-600/20 text-blue-400 border-b-2 border-blue-500' : 'text-gray-500 hover:bg-gray-800'}`}
+            className={`flex-1 py-3 text-sm font-black tracking-widest uppercase transition-all ${viewingInnings === 1 ? 'bg-blue-600/20 text-blue-400 border-b-2 border-blue-500 shadow-inner' : 'text-gray-500 hover:bg-gray-800/50'}`}
             onClick={() => setViewingInnings(1)}
           >
             Innings 1
           </button>
           <button 
-            className={`flex-1 py-3 text-sm font-bold transition-colors ${viewingInnings === 2 ? 'bg-blue-600/20 text-blue-400 border-b-2 border-blue-500' : 'text-gray-500 hover:bg-gray-800'}`}
+            className={`flex-1 py-3 text-sm font-black tracking-widest uppercase transition-all ${viewingInnings === 2 ? 'bg-blue-600/20 text-blue-400 border-b-2 border-blue-500 shadow-inner' : 'text-gray-500 hover:bg-gray-800/50'}`}
             onClick={() => setViewingInnings(2)}
           >
             Innings 2
@@ -120,12 +123,13 @@ export default function LiveScorecard({
 
       <main className="flex-1 p-4 max-w-4xl mx-auto w-full mt-4">
         {activeStats.isInningsComplete ? (
-          <div className="bg-green-900/30 border border-green-500 rounded-xl p-6 text-center mb-4">
-            <h2 className="text-2xl font-bold text-green-400 mb-2">Innings Complete!</h2>
-            <p className="text-gray-300 text-lg">Total Score: {activeStats.totalRuns}</p>
+          <div className="bg-green-900/40 backdrop-blur-md border border-green-500/50 rounded-2xl p-8 text-center mb-4 shadow-xl shadow-green-900/20">
+            <h2 className="text-3xl font-black text-green-400 mb-2 tracking-tight">Innings Complete!</h2>
+            <p className="text-gray-300 text-xl font-medium">Total Score: <span className="font-black text-white">{activeStats.totalRuns} / {activeStats.totalWickets}</span></p>
           </div>
         ) : (
-          <div className="max-w-md mx-auto">
+          <div className="max-w-md mx-auto bg-gray-950/60 backdrop-blur-xl border border-gray-800/50 rounded-2xl p-4 shadow-2xl">
+             <h3 className="text-xs font-black text-gray-500 uppercase tracking-widest mb-3 text-center">Current Over Event Timeline</h3>
              <OverTimeline events={activeStats.currentOverTimeline} />
           </div>
         )}

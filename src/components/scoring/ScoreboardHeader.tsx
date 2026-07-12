@@ -63,7 +63,7 @@ export default function ScoreboardHeader({
   }
 
   return (
-    <div className="bg-gray-900 border-b border-gray-800 p-4 lg:p-6 sticky top-0 z-10 shadow-lg">
+    <div className="bg-gray-950/70 backdrop-blur-3xl border-b border-gray-800/50 p-4 lg:p-6 sticky top-0 z-10 shadow-2xl shadow-black/50">
       <div className="max-w-4xl mx-auto space-y-4">
         
         <div className="print-only mb-8 text-center border-b-2 border-black pb-4">
@@ -91,16 +91,18 @@ export default function ScoreboardHeader({
           )}
         </div>
 
-        {/* Top Row: Match Totals */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <div className="text-gray-400 font-bold tracking-wider uppercase text-sm mb-1">{battingTeamName}</div>
+            <div className="text-gray-400 font-black tracking-widest uppercase text-sm mb-2 flex items-center gap-2">
+              <div className="h-2 w-2 rounded-full bg-blue-500"></div>
+              {battingTeamName}
+            </div>
             <div className="flex items-baseline gap-4">
-              <h2 className="text-6xl md:text-7xl font-black text-white tabular-nums tracking-tighter">
-                {totalRuns}<span className="text-3xl md:text-4xl text-gray-500 font-bold">/{totalWickets}</span>
+              <h2 className="text-7xl md:text-8xl font-black text-white tabular-nums tracking-tighter drop-shadow-lg">
+                {totalRuns}<span className="text-4xl md:text-5xl text-gray-500 font-black">/{totalWickets}</span>
               </h2>
-              <div className="text-xl md:text-2xl text-gray-400 font-bold tabular-nums">
-                ({completedOvers}.{ballsInCurrentOver})
+              <div className="text-2xl md:text-3xl text-gray-400 font-bold tabular-nums bg-gray-900/50 px-3 py-1 rounded-xl border border-gray-800">
+                {completedOvers}.{ballsInCurrentOver} <span className="text-sm font-bold text-gray-500">OVERS</span>
               </div>
             </div>
             
@@ -125,19 +127,22 @@ export default function ScoreboardHeader({
             </div>
 
             {targetScore && runsNeeded > 0 && ballsRemaining > 0 && (
-              <div className="mt-3 text-sm font-bold text-yellow-500">
+              <div className="mt-4 text-lg font-black tracking-tight text-yellow-500 bg-yellow-900/20 px-4 py-2 rounded-xl inline-block border border-yellow-700/50 shadow-[0_0_15px_rgba(234,179,8,0.1)]">
                 Need {runsNeeded} runs from {ballsRemaining} balls
               </div>
             )}
             {targetScore && runsNeeded <= 0 && (
-              <div className="mt-3 text-sm font-bold text-green-400">
+              <div className="mt-4 text-lg font-black tracking-tight text-pitch-green bg-green-900/20 px-4 py-2 rounded-xl inline-block border border-green-700/50 shadow-[0_0_15px_rgba(16,185,129,0.15)]">
                 Target Reached!
               </div>
             )}
           </div>
           
-          <div className="bg-gray-800/50 p-3 md:p-4 rounded-xl border border-gray-700/50 self-start md:self-end">
-            <div className="text-xs text-gray-500 font-bold uppercase tracking-wider mb-2">Extras ({extras.total})</div>
+          <div className="bg-gray-900/60 backdrop-blur-md p-4 rounded-2xl border border-gray-800 shadow-inner self-start md:self-end min-w-[200px]">
+            <div className="text-xs text-gray-400 font-black uppercase tracking-widest mb-3 flex items-center justify-between">
+              <span>Extras</span>
+              <span className="text-white bg-gray-800 px-2 py-0.5 rounded text-sm">{extras.total}</span>
+            </div>
             <div className="flex gap-3 text-sm font-semibold text-gray-300">
               <div><span className="text-gray-500">W</span> {extras.w}</div>
               <div><span className="text-gray-500">NB</span> {extras.nb}</div>
