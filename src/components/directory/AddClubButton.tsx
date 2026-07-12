@@ -65,6 +65,16 @@ export default function AddClubButton() {
               </div>
 
               <div>
+                <label className="block text-sm font-bold text-gray-400 mb-1">Club Manager Name (Optional)</label>
+                <input 
+                  type="text" 
+                  name="manager_name" 
+                  className="w-full bg-gray-950 border border-gray-800 rounded-lg p-3 text-white focus:border-blue-500 focus:outline-none"
+                  placeholder="e.g. John Doe"
+                />
+              </div>
+
+              <div>
                 <label className="block text-sm font-bold text-gray-400 mb-1">Description (Optional)</label>
                 <textarea 
                   name="description" 
