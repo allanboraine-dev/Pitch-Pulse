@@ -32,7 +32,15 @@ export default function RootLayout({
         <div className="fixed inset-0 z-[-1] bg-gradient-to-b from-gray-950/80 via-gray-950/95 to-gray-950 pointer-events-none"></div>
         
         <GlobalNav />
-        {children}
+        <main className="flex-1 flex flex-col">
+          {children}
+        </main>
+        
+        <footer className="w-full text-center py-6 mt-auto border-t border-gray-800/50 bg-gray-950/40 backdrop-blur-md no-print">
+          <p className="text-gray-500 text-sm font-medium tracking-wide">
+            Designed and Developed by <span className="font-bold text-white">Boraine Tech</span>
+          </p>
+        </footer>
       </body>
     </html>
   );
