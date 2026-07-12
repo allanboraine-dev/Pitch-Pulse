@@ -17,7 +17,7 @@ export default async function DirectoryPage() {
   // Fetch all active profiles
   const { data: profiles, error: profilesError } = await supabase
     .from('profiles')
-    .select('id, full_name, role, club_id')
+    .select('id, full_name, role, club_id, avatar_url')
     .eq('status', 'active')
     .order('full_name', { ascending: true })
 
@@ -112,11 +112,17 @@ export default async function DirectoryPage() {
                           <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Players</h3>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                             {players.map(p => (
-                              <div key={p.id} className="bg-gray-950 border border-gray-800 px-4 py-2.5 rounded-xl text-sm font-medium text-gray-300 flex items-center gap-3 hover:bg-gray-800 transition-colors">
-                                <div className="h-6 w-6 bg-gray-800 rounded-full flex items-center justify-center text-xs font-bold text-gray-500">
-                                  {p.full_name.charAt(0)}
-                                </div>
-                                {p.full_name}
+                              <div key={p.id} className="bg-gray-950/60 backdrop-blur-md border border-gray-800/80 px-4 py-2.5 rounded-xl text-sm font-medium text-gray-300 flex items-center gap-3 hover:bg-gray-800 hover:border-gray-600 transition-all shadow-md">
+                                {p.avatar_url ? (
+                                  <div className="h-8 w-8 rounded-full overflow-hidden border border-gray-600 bg-gray-800 shrink-0 shadow-inner">
+                                    <img src={p.avatar_url} alt={p.full_name} className="h-full w-full object-cover" />
+                                  </div>
+                                ) : (
+                                  <div className="h-8 w-8 bg-gradient-to-br from-gray-800 to-gray-700 rounded-full flex items-center justify-center text-xs font-bold text-gray-400 shrink-0 shadow-inner border border-gray-700">
+                                    {p.full_name.charAt(0)}
+                                  </div>
+                                )}
+                                <span className="font-bold tracking-wide">{p.full_name}</span>
                               </div>
                             ))}
                           </div>
