@@ -86,7 +86,7 @@ export default async function Home() {
                         <div className="text-lg font-bold text-gray-300">{dateString}</div>
                         <div className="text-sm text-gray-500 font-medium">{timeString}</div>
                       </div>
-                      <div className="md:hidden mt-2 text-sm font-bold text-blue-500 group-hover:text-blue-400">Score Match →</div>
+                      <div className="md:hidden mt-2 text-sm font-bold text-blue-500 group-hover:text-blue-400">Score a Game →</div>
                     </div>
                   </Link>
                 )

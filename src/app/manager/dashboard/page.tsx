@@ -62,7 +62,7 @@ export default async function ManagerDashboard() {
               href="/manager/matches/new"
               className="bg-pitch-green hover:bg-emerald-600 text-white px-6 py-2.5 rounded-xl font-black uppercase tracking-widest transition-all flex items-center justify-center flex-1 sm:flex-none text-sm shadow-lg shadow-emerald-900/30 border border-emerald-500/50"
             >
-              + Score a Match
+              + Score a Game
             </Link>
             
             <Link 
@@ -102,7 +102,7 @@ export default async function ManagerDashboard() {
                 
                 // If scheduled, they need to setup squads. If in_progress, they can jump straight to scoring.
                 const actionUrl = match.status === 'scheduled' ? `/matches/${match.id}/setup` : `/matches/${match.id}/score`;
-                const actionText = match.status === 'scheduled' ? 'Setup Match' : 'Resume Scoring';
+                const actionText = match.status === 'scheduled' ? 'Score a Game' : 'Resume Scoring';
                 const statusColor = match.status === 'scheduled' ? 'bg-gray-800 text-gray-400' : 'bg-green-900/50 text-green-400 border border-green-900/50';
 
                 return (
