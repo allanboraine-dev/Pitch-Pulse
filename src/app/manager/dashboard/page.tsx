@@ -1,7 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import ApproveButton from './ApproveButton'
 
 export default async function ManagerDashboard() {
   const supabase = await createClient()

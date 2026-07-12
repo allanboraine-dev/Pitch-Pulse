@@ -39,8 +39,8 @@ export default async function ScoreMatchPage({ params }: { params: Promise<{ id:
     redirect(`/matches/${id}/setup`)
   }
 
-  const homeSquad = squads.filter(s => s.team_id === match.home_team_id).map(s => s.profiles) as {id: string, full_name: string}[]
-  const awaySquad = squads.filter(s => s.team_id === match.away_team_id).map(s => s.profiles) as {id: string, full_name: string}[]
+  const homeSquad = squads.filter(s => s.team_id === match.home_team_id).map(s => s.profiles) as unknown as {id: string, full_name: string}[]
+  const awaySquad = squads.filter(s => s.team_id === match.away_team_id).map(s => s.profiles) as unknown as {id: string, full_name: string}[]
 
   return (
     <ScorerDashboard 

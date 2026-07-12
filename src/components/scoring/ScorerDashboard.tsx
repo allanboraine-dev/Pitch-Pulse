@@ -294,8 +294,8 @@ export default function ScorerDashboard({
                         let topBowlerRuns = 999;
                         let topBowlerId = '';
                         
-                        const allBatterStats = { ...engine.innings1Stats.batterStats, ...engine.innings2Stats.batterStats };
-                        const allBowlerStats = { ...engine.innings1Stats.bowlerStats, ...engine.innings2Stats.bowlerStats };
+                        const allBatterStats = { ...engine.innings1Stats.batterMap, ...engine.innings2Stats.batterMap };
+                        const allBowlerStats = { ...engine.innings1Stats.bowlerMap, ...engine.innings2Stats.bowlerMap };
                         
                         Object.entries(allBatterStats).forEach(([id, stats]) => {
                           if (stats.runs > topBatterRuns) {

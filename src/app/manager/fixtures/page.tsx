@@ -22,7 +22,10 @@ export default function FixtureLoaderPage() {
             <li>If a team doesn't exist, it will be automatically created.</li>
           </ul>
 
-          <form action={uploadFixtures} className="space-y-6">
+          <form action={async (formData) => {
+            'use server';
+            await uploadFixtures(formData);
+          }} className="space-y-6">
             <div>
               <label className="block text-sm font-bold text-gray-400 mb-2">Select CSV File</label>
               <input 

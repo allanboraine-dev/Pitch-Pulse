@@ -48,12 +48,13 @@ export function useLiveScore(matchId: string, maxOvers: number) {
 
   // Derive stats for both innings
   const innings1Stats = useMemo(() => {
-    return computeScoreStats(deliveries.filter(d => d.innings_id === 1), maxOvers)
+    return computeScoreStats(deliveries.filter(d => d.innings_id === 1), maxOvers, 1)
   }, [deliveries, maxOvers])
 
   const innings2Stats = useMemo(() => {
-    return computeScoreStats(deliveries.filter(d => d.innings_id === 2), maxOvers)
-  }, [deliveries, maxOvers])
+    const target = innings1Stats.totalRuns + 1;
+    return computeScoreStats(deliveries.filter(d => d.innings_id === 2), maxOvers, 2, false, target)
+  }, [deliveries, maxOvers, innings1Stats.totalRuns])
 
   return { deliveries, innings1Stats, innings2Stats, isLoading }
 }
