@@ -64,8 +64,10 @@ export default async function Home() {
                 const dateString = date ? date.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' }) : 'TBD';
                 const timeString = date ? date.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' }) : '';
                 
+                const actionUrl = match.status === 'scheduled' ? `/matches/${match.id}/setup` : `/matches/${match.id}/score`;
+                
                 return (
-                  <div key={match.id} className="bg-gray-900 border border-gray-800 rounded-xl p-5 flex flex-col md:flex-row justify-between md:items-center hover:border-gray-700 transition-colors gap-4">
+                  <Link href={actionUrl} key={match.id} className="bg-gray-900 border border-gray-800 rounded-xl p-5 flex flex-col md:flex-row justify-between md:items-center hover:border-blue-500/50 hover:shadow-[0_0_15px_rgba(37,99,235,0.15)] hover:bg-gray-800/80 transition-all gap-4 group cursor-pointer block">
                     <div className="flex-1">
                       <div className="flex flex-wrap items-center gap-3 mb-2">
                         <span className="px-2 py-0.5 bg-gray-800 text-gray-400 text-xs font-bold rounded uppercase tracking-wider">Scheduled</span>
@@ -74,16 +76,19 @@ export default async function Home() {
                           <span className="text-xs text-blue-400 font-semibold bg-blue-900/20 px-2 py-0.5 rounded">{match.season}</span>
                         )}
                       </div>
-                      <div className="text-xl font-bold">
+                      <div className="text-xl font-bold group-hover:text-blue-400 transition-colors">
                         {(match.home_team as any).name} <span className="text-gray-600 mx-2 text-sm font-normal">vs</span> {(match.away_team as any).name}
                       </div>
                     </div>
                     
-                    <div className="md:text-right border-t md:border-t-0 md:border-l border-gray-800 pt-3 md:pt-0 md:pl-5">
-                      <div className="text-lg font-bold text-gray-300">{dateString}</div>
-                      <div className="text-sm text-gray-500 font-medium">{timeString}</div>
+                    <div className="md:text-right border-t md:border-t-0 md:border-l border-gray-800 pt-3 md:pt-0 md:pl-5 flex md:flex-col items-center md:items-end justify-between">
+                      <div>
+                        <div className="text-lg font-bold text-gray-300">{dateString}</div>
+                        <div className="text-sm text-gray-500 font-medium">{timeString}</div>
+                      </div>
+                      <div className="md:hidden mt-2 text-sm font-bold text-blue-500 group-hover:text-blue-400">Score Match →</div>
                     </div>
-                  </div>
+                  </Link>
                 )
               })}
             </div>
