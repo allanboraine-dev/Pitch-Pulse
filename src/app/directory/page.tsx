@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
 import AddPlayerButton from '@/components/directory/AddPlayerButton'
+import AddClubButton from '@/components/directory/AddClubButton'
 
 export const revalidate = 60 // Revalidate every minute
 
@@ -55,11 +56,18 @@ export default async function DirectoryPage() {
   return (
     <div className="min-h-screen bg-gray-950 p-6 md:p-12 text-white font-sans">
       <div className="max-w-6xl mx-auto space-y-12">
-        <header className="text-center md:text-left border-b border-gray-800 pb-8">
-          <h1 className="text-4xl md:text-5xl font-black mb-4">League Directory</h1>
-          <p className="text-gray-400 text-lg max-w-2xl">
-            Browse all registered clubs and their active rosters within Pitch Pulse.
-          </p>
+        <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-gray-800 pb-8 text-center md:text-left">
+          <div>
+            <h1 className="text-4xl md:text-5xl font-black mb-4">League Directory</h1>
+            <p className="text-gray-400 text-lg max-w-2xl">
+              Browse all registered clubs, their active player rosters, and manager information.
+            </p>
+          </div>
+          {isLoggedIn && (
+            <div>
+              <AddClubButton />
+            </div>
+          )}
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
