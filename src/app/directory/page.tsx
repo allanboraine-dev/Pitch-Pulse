@@ -8,10 +8,6 @@ export const revalidate = 60 // Revalidate every minute
 export default async function DirectoryPage() {
   const supabase = await createClient()
 
-  // Verify auth: Logged in users can add players
-  const { data: userData } = await supabase.auth.getUser()
-  const isLoggedIn = !!userData?.user
-
   // Fetch all clubs
   const { data: clubs, error: clubsError } = await supabase
     .from('clubs')
@@ -63,11 +59,9 @@ export default async function DirectoryPage() {
               Browse all registered clubs, their active player rosters, and manager information.
             </p>
           </div>
-          {isLoggedIn && (
-            <div>
-              <AddClubButton />
-            </div>
-          )}
+          <div>
+            <AddClubButton />
+          </div>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -86,9 +80,7 @@ export default async function DirectoryPage() {
                     {club.name}
                   </h2>
                   <div className="flex items-center gap-3">
-                    {isLoggedIn && (
-                      <AddPlayerButton clubId={club.id} clubName={club.name} />
-                    )}
+                    <AddPlayerButton clubId={club.id} clubName={club.name} />
                     <span className="text-xs font-semibold text-gray-400 bg-gray-950 px-3 py-1 rounded-full border border-gray-800">
                       {roster.length} Members
                     </span>
