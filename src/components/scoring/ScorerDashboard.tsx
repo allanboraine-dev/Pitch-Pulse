@@ -92,7 +92,7 @@ export default function ScorerDashboard({
   }
 
   if (!engine.hasLoadedLocalState) {
-    return <div className="min-h-screen bg-gray-950 flex items-center justify-center text-gray-500">Loading match state...</div>
+    return <div className="min-h-screen bg-transparent flex items-center justify-center text-gray-500">Loading match state...</div>
   }
 
   if (!engine.isSetupComplete) {
@@ -106,7 +106,7 @@ export default function ScorerDashboard({
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white flex flex-col">
+    <div className="min-h-screen bg-transparent text-white flex flex-col">
       {/* If we are in Innings 2 or Match is Complete, show Innings 1 Scorecard in Print View */}
       {(engine.innings === 2 || (engine.innings === 1 && engine.stats.isInningsComplete)) && (
         <div className="print-only mb-12 page-break-after-always border-b-4 border-gray-800 pb-8">

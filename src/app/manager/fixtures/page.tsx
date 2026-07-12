@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export default function FixtureLoaderPage() {
   return (
-    <div className="min-h-screen bg-gray-950 p-8 text-white font-sans">
+    <div className="min-h-screen bg-transparent p-8 text-white font-sans">
       <div className="max-w-xl mx-auto">
         <div className="mb-8">
           <Link href="/manager/dashboard" className="text-blue-500 hover:text-blue-400 font-bold mb-4 inline-block">

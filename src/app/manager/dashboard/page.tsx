@@ -41,7 +41,7 @@ export default async function ManagerDashboard() {
   const completedMatches = allMatches?.filter(m => m.status === 'completed' || m.status === 'abandoned') || []
 
   return (
-    <div className="min-h-screen bg-gray-950 p-6 md:p-12 text-white">
+    <div className="min-h-screen bg-transparent p-6 md:p-12 text-white">
       <div className="max-w-4xl mx-auto space-y-8">
         
         <header className="flex flex-col md:flex-row md:items-center justify-between border-b border-gray-800 pb-6 gap-6">

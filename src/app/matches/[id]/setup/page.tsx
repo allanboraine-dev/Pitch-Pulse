@@ -44,7 +44,7 @@ export default async function SquadSetupPage({ params }: { params: Promise<{ id:
     .order('full_name')
 
   return (
-    <div className="min-h-screen bg-gray-950 p-4 md:p-8 text-white">
+    <div className="min-h-screen bg-transparent p-4 md:p-8 text-white">
       <div className="max-w-4xl mx-auto bg-gray-900 rounded-2xl shadow-2xl p-6 md:p-8 border border-gray-800">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">Select Playing XI</h1>

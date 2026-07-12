@@ -30,7 +30,7 @@ export default function LiveScorecard({
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center text-gray-500">
+      <div className="min-h-screen bg-transparent flex items-center justify-center text-gray-500">
         <div className="flex flex-col items-center gap-4">
           <div className="h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
           <p>Connecting to live match...</p>

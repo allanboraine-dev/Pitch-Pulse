@@ -23,7 +23,7 @@ export default async function DirectoryPage() {
 
   if (clubsError || profilesError) {
     return (
-      <div className="min-h-screen bg-gray-950 text-white flex items-center justify-center p-8">
+      <div className="min-h-screen bg-transparent text-white flex items-center justify-center p-8">
         <div className="text-center text-red-500 bg-red-900/20 p-6 rounded-xl border border-red-500/50">
           <h2 className="text-xl font-bold mb-2">Error loading directory</h2>
           <p>{clubsError?.message || profilesError?.message}</p>
@@ -50,7 +50,7 @@ export default async function DirectoryPage() {
   })
 
   return (
-    <div className="min-h-screen bg-gray-950 p-6 md:p-12 text-white font-sans">
+    <div className="min-h-screen bg-transparent p-6 md:p-12 text-white font-sans">
       <div className="max-w-6xl mx-auto space-y-12">
         <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-gray-800 pb-8 text-center md:text-left">
           <div>

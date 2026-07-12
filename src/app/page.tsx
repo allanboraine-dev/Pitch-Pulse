@@ -11,7 +11,7 @@ export default async function Home() {
     .order('scheduled_time', { ascending: true })
     .limit(5)
   return (
-    <div className="flex flex-col flex-1 items-center justify-center min-h-screen bg-gray-950 font-sans text-white">
+    <div className="flex flex-col flex-1 items-center justify-center min-h-screen bg-transparent font-sans text-white">
       <main className="flex flex-col items-center justify-center p-8 max-w-2xl w-full text-center">
         
         <div className="mb-12">
