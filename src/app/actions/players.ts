@@ -7,9 +7,7 @@ import { revalidatePath } from 'next/cache'
 export async function addPlayerToClub(clubId: string, playerName: string) {
   const supabase = await createClient()
 
-  // Verify auth: Logged in users can add players
-  const { data: userData } = await supabase.auth.getUser()
-  if (!userData?.user) return { error: 'Unauthorized' }
+  // Auth check intentionally removed for MVP to allow public adding of offline players
 
   // Generate a random UUID for the offline player
   const playerId = crypto.randomUUID()
