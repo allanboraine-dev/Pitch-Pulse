@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@media print {
+  /* Hide non-essential elements */
+  .no-print {
+    display: none !important;
+  }
+  
+  /* Force white background and black text */
+  body {
+    background-color: white !important;
+    color: black !important;
+  }
+  
+  /* Reset component backgrounds for print */
+  .bg-gray-950, .bg-gray-900, .bg-gray-800, .bg-gray-700 {
+    background-color: white !important;
+  }
+  
+  /* Clean up text colors for contrast */
+  .text-white, .text-gray-300, .text-gray-400, .text-gray-500 {
+    color: black !important;
+  }
+  
+  /* Ensure borders remain visible */
+  .border-gray-800, .border-gray-700 {
+    border-color: #ccc !important;
+  }
+  
+  /* Prevent page breaks inside tables */
+  table {
+    page-break-inside: avoid;
+    width: 100% !important;
+  }
+  
+  /* Ensure the header prints nicely at the top */
+  header, .sticky {
+    position: static !important;
+    box-shadow: none !important;
+    border-bottom: 2px solid black !important;
+  }
+}
+
+@media screen {
+  .print-only {
+    display: none !important;
+  }
+}
