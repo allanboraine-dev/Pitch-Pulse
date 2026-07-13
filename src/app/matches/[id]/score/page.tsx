@@ -23,15 +23,15 @@ export default async function ScoreMatchPage({ params }: { params: Promise<{ id:
   // Fetch Squads
   const { data: squads } = await supabase
     .from('match_squads')
-    .select('team_id, profiles(id, full_name)')
+    .select('team_id, profiles(id, full_name, avatar_url)')
     .eq('match_id', id)
 
   if (!squads || squads.length === 0) {
     redirect(`/matches/${id}/setup`)
   }
 
-  const homeSquad = squads.filter(s => s.team_id === match.home_team_id).map(s => s.profiles) as unknown as {id: string, full_name: string}[]
-  const awaySquad = squads.filter(s => s.team_id === match.away_team_id).map(s => s.profiles) as unknown as {id: string, full_name: string}[]
+  const homeSquad = squads.filter(s => s.team_id === match.home_team_id).map(s => s.profiles) as unknown as {id: string, full_name: string, avatar_url?: string}[]
+  const awaySquad = squads.filter(s => s.team_id === match.away_team_id).map(s => s.profiles) as unknown as {id: string, full_name: string, avatar_url?: string}[]
 
   return (
     <ScorerDashboard 

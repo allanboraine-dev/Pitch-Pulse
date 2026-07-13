@@ -32,16 +32,16 @@ export default function ScoreboardHeader({
   batterStats: Record<string, BatterStats>
   bowlerStats: Record<string, BowlerStats>
   extras: { w: number, nb: number, b: number, lb: number, total: number }
-  battingSquad: { id: string; full_name: string }[]
-  bowlingSquad: { id: string; full_name: string }[]
+  battingSquad: { id: string; full_name: string; avatar_url?: string }[]
+  bowlingSquad: { id: string; full_name: string; avatar_url?: string }[]
   syncStatus: 'online' | 'syncing' | 'offline'
   pendingCount: number
   targetScore?: number
   maxOvers: number
 }) {
 
-  const getBatterName = (id: string | null) => battingSquad.find(p => p.id === id)?.full_name || '...'
-  const getBowlerName = (id: string | null) => bowlingSquad.find(p => p.id === id)?.full_name || '...'
+  const getBatter = (id: string | null) => battingSquad.find(p => p.id === id) || { full_name: '...', avatar_url: undefined }
+  const getBowler = (id: string | null) => bowlingSquad.find(p => p.id === id) || { full_name: '...', avatar_url: undefined }
 
   const strikerStats = currentBatterId && batterStats[currentBatterId] ? batterStats[currentBatterId] : { runs: 0, balls: 0, fours: 0, sixes: 0, sr: 0 }
   const nonStrikerStats = nonStrikerId && batterStats[nonStrikerId] ? batterStats[nonStrikerId] : { runs: 0, balls: 0, fours: 0, sixes: 0, sr: 0 }
@@ -173,9 +173,18 @@ export default function ScoreboardHeader({
             </thead>
             <tbody className="divide-y divide-gray-700/50">
               <tr className="bg-blue-900/10">
-                <td className="px-4 py-3 font-semibold text-white flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-green-500 inline-block"></span>
-                  {getBatterName(currentBatterId)}*
+                <td className="px-4 py-3 font-semibold text-white flex items-center gap-3">
+                  {getBatter(currentBatterId).avatar_url ? (
+                    <img src={getBatter(currentBatterId).avatar_url} alt="avatar" className="w-8 h-8 rounded-full object-cover border border-gray-600" />
+                  ) : (
+                    <div className="w-8 h-8 rounded-full bg-blue-900/50 border border-blue-500/30 flex items-center justify-center text-xs font-bold text-blue-300">
+                      {getBatter(currentBatterId).full_name.substring(0,2).toUpperCase()}
+                    </div>
+                  )}
+                  <span className="flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-green-500 inline-block shadow-[0_0_8px_rgba(34,197,94,0.8)]"></span>
+                    {getBatter(currentBatterId).full_name}*
+                  </span>
                 </td>
                 <td className="px-4 py-3 font-bold text-right">{strikerStats.runs}</td>
                 <td className="px-4 py-3 text-gray-300 text-right">{strikerStats.balls}</td>
@@ -184,8 +193,15 @@ export default function ScoreboardHeader({
                 <td className="px-4 py-3 text-gray-400 text-right">{strikerStats.sr}</td>
               </tr>
               <tr>
-                <td className="px-4 py-3 text-gray-300 pl-8">
-                  {getBatterName(nonStrikerId)}
+                <td className="px-4 py-3 text-gray-300 pl-8 flex items-center gap-3">
+                  {getBatter(nonStrikerId).avatar_url ? (
+                    <img src={getBatter(nonStrikerId).avatar_url} alt="avatar" className="w-8 h-8 rounded-full object-cover border border-gray-700 opacity-80" />
+                  ) : (
+                    <div className="w-8 h-8 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-xs font-bold text-gray-500">
+                      {getBatter(nonStrikerId).full_name.substring(0,2).toUpperCase()}
+                    </div>
+                  )}
+                  <span>{getBatter(nonStrikerId).full_name}</span>
                 </td>
                 <td className="px-4 py-3 font-bold text-right">{nonStrikerStats.runs}</td>
                 <td className="px-4 py-3 text-gray-300 text-right">{nonStrikerStats.balls}</td>
@@ -227,8 +243,15 @@ export default function ScoreboardHeader({
               </thead>
               <tbody>
                 <tr>
-                  <td className="px-4 py-3 font-semibold text-white">
-                    {getBowlerName(currentBowlerId)}
+                  <td className="px-4 py-3 font-semibold text-white flex items-center gap-3">
+                    {getBowler(currentBowlerId).avatar_url ? (
+                      <img src={getBowler(currentBowlerId).avatar_url} alt="avatar" className="w-8 h-8 rounded-full object-cover border border-red-900/50" />
+                    ) : (
+                      <div className="w-8 h-8 rounded-full bg-red-900/20 border border-red-500/30 flex items-center justify-center text-xs font-bold text-red-400">
+                        {getBowler(currentBowlerId).full_name.substring(0,2).toUpperCase()}
+                      </div>
+                    )}
+                    <span>{getBowler(currentBowlerId).full_name}</span>
                   </td>
                   <td className="px-4 py-3 text-gray-300 text-right">{bowler.overs}</td>
                   <td className="px-4 py-3 text-gray-300 text-right">{bowler.runs}</td>

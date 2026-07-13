@@ -20,7 +20,7 @@ export type DeliveryEvent = {
 export type TeamInfo = {
   id: string
   name: string
-  squad: { id: string; full_name: string }[]
+  squad: { id: string; full_name: string; avatar_url?: string }[]
 }
 
 export type BatterStats = {

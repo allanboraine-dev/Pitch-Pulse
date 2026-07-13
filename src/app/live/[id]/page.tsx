@@ -20,7 +20,7 @@ export default async function LiveMatchPage({ params }: { params: Promise<{ id: 
   // Fetch Squads
   const { data: squads, error: squadsError } = await supabase
     .from('match_squads')
-    .select('team_id, profiles(id, full_name)')
+    .select('team_id, profiles(id, full_name, avatar_url)')
     .eq('match_id', id)
 
   if (squadsError || !squads) {
