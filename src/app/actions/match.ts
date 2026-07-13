@@ -2,6 +2,7 @@
 
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
+import { cookies } from 'next/headers'
 
 export async function createMatch(formData: FormData) {
   const homeTeamId = formData.get('homeTeamId') as string
@@ -14,8 +15,8 @@ export async function createMatch(formData: FormData) {
 
   const supabase = await createClient()
 
-  const { data: userData } = await supabase.auth.getUser()
-  if (!userData?.user) return { error: 'Unauthorized' }
+  const cookieStore = await cookies()
+  if (!cookieStore.get('pitchpulse_auth')?.value) return { error: 'Unauthorized' }
 
   // Insert match
   const { data: match, error } = await supabase

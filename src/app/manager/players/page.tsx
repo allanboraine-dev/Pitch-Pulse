@@ -2,28 +2,33 @@ import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import EditPlayerModal from '@/components/manager/EditPlayerModal'
+import { cookies } from 'next/headers'
 
 export default async function ManagerPlayersPage() {
   const supabase = await createClient()
 
-  const { data: userData } = await supabase.auth.getUser()
-  if (!userData?.user) redirect('/login')
+  const cookieStore = await cookies()
+  const authCookieStr = cookieStore.get('pitchpulse_auth')?.value
+  
+  if (!authCookieStr) redirect('/login')
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('club_id, role')
-    .eq('id', userData.user.id)
-    .single()
-
-  if (!profile || !profile.club_id || profile.role !== 'manager') {
-    redirect('/')
+  let authData;
+  try {
+    authData = JSON.parse(authCookieStr)
+  } catch (e) {
+    redirect('/login')
   }
+
+  const clubId = authData.club_id;
+  const isManager = authData.role === 'manager'
+
+  if (!clubId || !isManager) redirect('/login')
 
   // Fetch all players for this club
   const { data: players } = await supabase
     .from('profiles')
     .select('id, full_name, avatar_url, role, status')
-    .eq('club_id', profile.club_id)
+    .eq('club_id', clubId)
     .order('full_name')
 
   return (

@@ -1,24 +1,28 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import { cookies } from 'next/headers'
 
 export default async function ManagerDashboard() {
   const supabase = await createClient()
 
-  const { data: userData } = await supabase.auth.getUser()
-  if (!userData?.user) redirect('/login')
+  const cookieStore = await cookies()
+  const authCookieStr = cookieStore.get('pitchpulse_auth')?.value
+  
+  if (!authCookieStr) redirect('/login')
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('club_id, role')
-    .eq('id', userData.user.id)
-    .single()
-
-  if (!profile || !profile.club_id) {
-    redirect('/register-club')
+  let authData;
+  try {
+    authData = JSON.parse(authCookieStr)
+  } catch (e) {
+    redirect('/login')
   }
 
-  const isManager = profile.role === 'manager'
+  const clubId = authData.club_id;
+  const isManager = authData.role === 'manager'
+  const accessCode = authData.access_code;
+
+  if (!clubId) redirect('/login')
   // Fetch all matches
   const { data: allMatches } = await supabase
     .from('matches')
@@ -39,12 +43,17 @@ export default async function ManagerDashboard() {
             </h1>
 
             {isManager && (
-              <Link 
-                href="/signup" 
-                className="bg-blue-900/40 text-blue-400 hover:bg-blue-900/60 hover:text-blue-300 text-sm px-3 py-1.5 rounded font-medium transition-colors border border-blue-900/50 inline-block mt-2"
-              >
-                Copy Player Signup Link
-              </Link>
+              <div className="flex gap-2 items-center mt-2">
+                <div className="bg-gray-800 text-gray-400 text-xs px-3 py-1.5 rounded font-mono border border-gray-700 select-all cursor-pointer hover:bg-gray-700 transition">
+                  Access Code: <span className="font-bold text-white tracking-widest ml-1">{accessCode}</span>
+                </div>
+                <Link 
+                  href="/signup" 
+                  className="bg-blue-900/40 text-blue-400 hover:bg-blue-900/60 hover:text-blue-300 text-xs px-3 py-1.5 rounded font-medium transition-colors border border-blue-900/50 inline-block"
+                >
+                  Copy Player Signup Link
+                </Link>
+              </div>
             )}
           </div>
           
@@ -76,6 +85,19 @@ export default async function ManagerDashboard() {
               </svg>
               Bulk Fixtures
             </Link>
+
+            <form action={async () => {
+              'use server'
+              const { logoutUser } = await import('@/app/actions/auth')
+              await logoutUser()
+            }}>
+              <button 
+                type="submit"
+                className="bg-gray-800 hover:bg-red-900/80 text-gray-300 hover:text-red-200 px-5 py-2.5 rounded-xl font-bold transition flex items-center justify-center flex-1 sm:flex-none text-sm border border-gray-700 hover:border-red-800"
+              >
+                Sign Out
+              </button>
+            </form>
           </div>
           )}
         </header>

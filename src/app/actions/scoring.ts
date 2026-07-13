@@ -2,15 +2,16 @@
 
 import { createClient } from '@/utils/supabase/server'
 import { DeliveryEvent } from '@/hooks/useScoringEngine'
+import { cookies } from 'next/headers'
 
 export async function syncDeliveries(deliveries: DeliveryEvent[]) {
   if (!deliveries || deliveries.length === 0) return { success: true }
 
   const supabase = await createClient()
 
-  // Verify Manager Auth
-  const { data: userData } = await supabase.auth.getUser()
-  if (!userData?.user) throw new Error('Unauthorized')
+  // Verify Auth
+  const cookieStore = await cookies()
+  if (!cookieStore.get('pitchpulse_auth')?.value) throw new Error('Unauthorized')
 
   const { error } = await supabase
     .from('deliveries')

@@ -2,6 +2,7 @@
 
 import { createClient } from '@/utils/supabase/server'
 import { createClient as createJSClient } from '@supabase/supabase-js'
+import { cookies } from 'next/headers'
 import { revalidatePath } from 'next/cache'
 
 export async function addPlayerToClub(formData: FormData) {
@@ -79,8 +80,8 @@ export async function editPlayerProfile(formData: FormData) {
   const supabase = await createClient()
 
   // Verify Manager Auth
-  const { data: userData } = await supabase.auth.getUser()
-  if (!userData?.user) return { error: 'Unauthorized' }
+  const cookieStore = await cookies()
+  if (!cookieStore.get('pitchpulse_auth')?.value) return { error: 'Unauthorized' }
 
   let avatar_url = undefined;
 

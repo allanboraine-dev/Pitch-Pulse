@@ -1,5 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
+import { cookies } from 'next/headers'
 import SquadSelectionForm from './SquadSelectionForm'
 
 export default async function SquadSetupPage({ params }: { params: Promise<{ id: string }> }) {
@@ -28,8 +29,10 @@ export default async function SquadSetupPage({ params }: { params: Promise<{ id:
   const { data: clubs } = await supabase.from('clubs').select('id, name').order('name')
 
   // Verify Manager Auth
-  const { data: userData } = await supabase.auth.getUser()
-  if (!userData?.user) redirect('/login')
+  const cookieStore = await cookies()
+  const authCookieStr = cookieStore.get('pitchpulse_auth')?.value
+  
+  if (!authCookieStr) redirect('/login')
 
   // Fetch all active players in the league
   const { data: allPlayers } = await supabase

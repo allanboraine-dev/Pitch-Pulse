@@ -1,14 +1,17 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import ScorerDashboard from '@/components/scoring/ScorerDashboard'
+import { cookies } from 'next/headers'
 
 export default async function ScoreMatchPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const supabase = await createClient()
 
   // Verify Manager Auth
-  const { data: userData } = await supabase.auth.getUser()
-  if (!userData?.user) redirect('/login')
+  const cookieStore = await cookies()
+  const authCookieStr = cookieStore.get('pitchpulse_auth')?.value
+  
+  if (!authCookieStr) redirect('/login')
 
   // Fetch Match Details
   const { data: match, error: matchError } = await supabase
