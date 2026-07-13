@@ -44,15 +44,6 @@ export default async function ManagerPlayersPage() {
               Player Roster
             </h1>
           </div>
-          
-          <div className="flex flex-col sm:flex-row gap-3">
-            <Link 
-              href="/signup" 
-              className="bg-blue-900/40 text-blue-400 hover:bg-blue-900/60 hover:text-blue-300 px-5 py-2.5 rounded-xl font-bold transition flex items-center justify-center text-sm shadow-lg border border-blue-900/50"
-            >
-              Copy Signup Link
-            </Link>
-          </div>
         </header>
 
         <section>

@@ -47,12 +47,6 @@ export default async function ManagerDashboard() {
                 <div className="bg-gray-800 text-gray-400 text-xs px-3 py-1.5 rounded font-mono border border-gray-700 select-all cursor-pointer hover:bg-gray-700 transition">
                   Access Code: <span className="font-bold text-white tracking-widest ml-1">{accessCode}</span>
                 </div>
-                <Link 
-                  href="/signup" 
-                  className="bg-blue-900/40 text-blue-400 hover:bg-blue-900/60 hover:text-blue-300 text-xs px-3 py-1.5 rounded font-medium transition-colors border border-blue-900/50 inline-block"
-                >
-                  Copy Player Signup Link
-                </Link>
               </div>
             )}
           </div>
