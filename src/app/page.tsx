@@ -35,15 +35,15 @@ export default async function Home() {
             <p className="text-gray-500">Watch live matches in real-time.</p>
           </Link>
 
-          {/* Manager/Scorer Route */}
-          <Link href="/manager/dashboard" className="group flex flex-col p-8 bg-gray-900 border border-gray-800 hover:border-blue-500/50 rounded-3xl transition-all hover:shadow-2xl hover:shadow-blue-500/10 items-center justify-center">
+          {/* Scorer Route */}
+          <Link href="/manager/matches/new" className="group flex flex-col p-8 bg-gray-900 border border-gray-800 hover:border-blue-500/50 rounded-3xl transition-all hover:shadow-2xl hover:shadow-blue-500/10 items-center justify-center">
             <div className="h-16 w-16 bg-blue-500/10 text-blue-500 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
               <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
               </svg>
             </div>
-            <h2 className="text-2xl font-bold mb-2">Manager & Scorer</h2>
-            <p className="text-gray-500">Manage clubs, squads, and score live.</p>
+            <h2 className="text-2xl font-bold mb-2">Scorer</h2>
+            <p className="text-gray-500">Score live matches.</p>
           </Link>
         </div>
 
