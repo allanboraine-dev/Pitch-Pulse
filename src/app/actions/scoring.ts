@@ -8,9 +8,9 @@ export async function syncDeliveries(deliveries: DeliveryEvent[]) {
 
   const supabase = await createClient()
 
-  // Verify Manager Auth
-  const { data: userData } = await supabase.auth.getUser()
-  if (!userData?.user) throw new Error('Unauthorized')
+  // MVP: Bypassing auth check for public testing
+  // const { data: userData } = await supabase.auth.getUser()
+  // if (!userData?.user) throw new Error('Unauthorized')
 
   const { error } = await supabase
     .from('deliveries')
@@ -26,9 +26,9 @@ export async function syncDeliveries(deliveries: DeliveryEvent[]) {
 export async function closeMatch(matchId: string, resultString: string, starPerformers?: string) {
   const supabase = await createClient()
 
-  // Verify auth
-  const { data: userData } = await supabase.auth.getUser()
-  if (!userData?.user) return { error: 'Unauthorized' }
+  // MVP: Bypassing auth check for public testing
+  // const { data: userData } = await supabase.auth.getUser()
+  // if (!userData?.user) return { error: 'Unauthorized' }
 
   // Update match status to completed and save result and performers
   const { error } = await supabase
@@ -50,8 +50,9 @@ export async function closeMatch(matchId: string, resultString: string, starPerf
 export async function resetMatch(matchId: string) {
   const supabase = await createClient()
 
-  const { data: userData } = await supabase.auth.getUser()
-  if (!userData?.user) return { error: 'Unauthorized' }
+  // MVP: Bypassing auth check for public testing
+  // const { data: userData } = await supabase.auth.getUser()
+  // if (!userData?.user) return { error: 'Unauthorized' }
 
   // Delete all deliveries
   const { error: delError } = await supabase
