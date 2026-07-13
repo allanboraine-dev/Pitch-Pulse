@@ -124,3 +124,39 @@ export async function editPlayerProfile(formData: FormData) {
   revalidatePath('/manager/players')
   return { success: true }
 }
+
+export async function removePlayerFromClub(playerId: string) {
+  const supabase = await createClient()
+
+  // Verify Manager Auth
+  const cookieStore = await cookies()
+  const authDataStr = cookieStore.get('pitchpulse_auth')?.value
+  if (!authDataStr) return { error: 'Unauthorized' }
+
+  let authData;
+  try {
+    authData = JSON.parse(authDataStr)
+  } catch (e) {
+    return { error: 'Unauthorized' }
+  }
+
+  const clubId = authData.club_id
+
+  if (!clubId) return { error: 'Unauthorized' }
+
+  // We perform a "soft delete" by removing them from the club roster.
+  // This ensures we don't break historical match data (match_squads, deliveries).
+  const { error } = await supabase
+    .from('profiles')
+    .update({ club_id: null })
+    .eq('id', playerId)
+    .eq('club_id', clubId) // Ensure they belong to this manager's club
+
+  if (error) {
+    return { error: 'Failed to remove player: ' + error.message }
+  }
+
+  revalidatePath('/manager/players')
+  return { success: true }
+}
+

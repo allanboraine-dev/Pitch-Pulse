@@ -2,6 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import EditPlayerModal from '@/components/manager/EditPlayerModal'
+import RemovePlayerButton from '@/components/manager/RemovePlayerButton'
 import { cookies } from 'next/headers'
 
 export default async function ManagerPlayersPage() {
@@ -72,7 +73,12 @@ export default async function ManagerPlayersPage() {
                     </div>
                   </div>
 
-                  <EditPlayerModal player={player} />
+                      <div className="flex w-full items-center">
+                        <div className="flex-1">
+                          <EditPlayerModal player={player} />
+                        </div>
+                        <RemovePlayerButton playerId={player.id} playerName={player.full_name} />
+                      </div>
                 </div>
               ))}
             </div>
