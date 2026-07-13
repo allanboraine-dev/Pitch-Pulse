@@ -6,8 +6,9 @@ export default async function ScoreMatchPage({ params }: { params: Promise<{ id:
   const { id } = await params
   const supabase = await createClient()
 
-  // MVP: Bypassing auth to allow public testing
-
+  // Verify Manager Auth
+  const { data: userData } = await supabase.auth.getUser()
+  if (!userData?.user) redirect('/login')
 
   // Fetch Match Details
   const { data: match, error: matchError } = await supabase

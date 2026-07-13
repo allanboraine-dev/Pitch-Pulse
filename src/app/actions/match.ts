@@ -14,8 +14,8 @@ export async function createMatch(formData: FormData) {
 
   const supabase = await createClient()
 
-  // MVP: Bypassing auth to allow public testing
-
+  const { data: userData } = await supabase.auth.getUser()
+  if (!userData?.user) return { error: 'Unauthorized' }
 
   // Insert match
   const { data: match, error } = await supabase
@@ -39,8 +39,8 @@ export async function createMatch(formData: FormData) {
 export async function saveSquads(matchId: string, homeTeamId: string, awayTeamId: string, homePlayers: string[], awayPlayers: string[]) {
   const supabase = await createClient()
 
-  // MVP: Bypassing auth to allow public testing
-
+  const { data: userData } = await supabase.auth.getUser()
+  if (!userData?.user) return { error: 'Unauthorized' }
 
   const squads = [
     ...homePlayers.map(playerId => ({ match_id: matchId, team_id: homeTeamId, player_id: playerId })),

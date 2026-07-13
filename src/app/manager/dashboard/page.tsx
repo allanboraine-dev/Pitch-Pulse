@@ -5,11 +5,20 @@ import Link from 'next/link'
 export default async function ManagerDashboard() {
   const supabase = await createClient()
 
-  // MVP: Bypassing auth to allow public testing of the dashboard
-  const isManager = true;
+  const { data: userData } = await supabase.auth.getUser()
+  if (!userData?.user) redirect('/login')
 
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('club_id, role')
+    .eq('id', userData.user.id)
+    .single()
 
+  if (!profile || !profile.club_id) {
+    redirect('/register-club')
+  }
 
+  const isManager = profile.role === 'manager'
   // Fetch all matches
   const { data: allMatches } = await supabase
     .from('matches')
@@ -48,6 +57,16 @@ export default async function ManagerDashboard() {
               + Score a Game
             </Link>
             
+            <Link 
+              href="/manager/players"
+              className="bg-purple-600 hover:bg-purple-500 text-white px-5 py-2.5 rounded-xl font-bold transition flex items-center justify-center flex-1 sm:flex-none gap-2 text-sm shadow-lg shadow-purple-900/20"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+              My Players
+            </Link>
+
             <Link 
               href="/manager/fixtures"
               className="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2.5 rounded-xl font-bold transition flex items-center justify-center flex-1 sm:flex-none gap-2 text-sm shadow-lg shadow-indigo-900/20"

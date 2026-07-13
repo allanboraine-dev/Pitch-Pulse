@@ -27,6 +27,10 @@ export default async function SquadSetupPage({ params }: { params: Promise<{ id:
   // Fetch all clubs to allow team changes
   const { data: clubs } = await supabase.from('clubs').select('id, name').order('name')
 
+  // Verify Manager Auth
+  const { data: userData } = await supabase.auth.getUser()
+  if (!userData?.user) redirect('/login')
+
   // Fetch all active players in the league
   const { data: allPlayers } = await supabase
     .from('profiles')

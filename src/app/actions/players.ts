@@ -63,5 +63,63 @@ export async function addPlayerToClub(formData: FormData) {
   }
 
   revalidatePath('/directory')
+  revalidatePath('/manager/players')
+  return { success: true }
+}
+
+export async function editPlayerProfile(formData: FormData) {
+  const playerId = formData.get('playerId') as string
+  const playerName = formData.get('playerName') as string
+  const avatarFile = formData.get('avatar') as File | null
+
+  if (!playerId || !playerName) {
+    return { error: 'Player ID and Player Name are required' }
+  }
+
+  const supabase = await createClient()
+
+  // Verify Manager Auth
+  const { data: userData } = await supabase.auth.getUser()
+  if (!userData?.user) return { error: 'Unauthorized' }
+
+  let avatar_url = undefined;
+
+  // Handle avatar upload if provided
+  if (avatarFile && avatarFile.size > 0) {
+    const fileExt = avatarFile.name.split('.').pop()
+    const filePath = `${playerId}-${Date.now()}.${fileExt}`
+
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from('avatars')
+      .upload(filePath, avatarFile, {
+        cacheControl: '3600',
+        upsert: true
+      })
+
+    if (uploadError) {
+      console.error('Avatar upload error:', uploadError)
+    } else if (uploadData) {
+      const { data: publicUrlData } = supabase.storage
+        .from('avatars')
+        .getPublicUrl(filePath)
+        
+      avatar_url = publicUrlData.publicUrl
+    }
+  }
+
+  // Update the profile
+  const { error: updateError } = await supabase
+    .from('profiles')
+    .update({
+      full_name: playerName,
+      ...(avatar_url ? { avatar_url } : {})
+    })
+    .eq('id', playerId)
+
+  if (updateError) {
+    return { error: 'Failed to update player: ' + updateError.message }
+  }
+
+  revalidatePath('/manager/players')
   return { success: true }
 }
