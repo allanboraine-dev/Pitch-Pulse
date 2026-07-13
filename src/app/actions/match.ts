@@ -14,17 +14,8 @@ export async function createMatch(formData: FormData) {
 
   const supabase = await createClient()
 
-  // Verify the user is a manager
-  const { data: userData } = await supabase.auth.getUser()
-  if (!userData?.user) return { error: 'Unauthorized' }
+  // MVP: Bypassing auth to allow public testing
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', userData.user.id)
-    .single()
-
-  if (profile?.role !== 'manager') return { error: 'Only managers can create matches.' }
 
   // Insert match
   const { data: match, error } = await supabase
@@ -48,9 +39,8 @@ export async function createMatch(formData: FormData) {
 export async function saveSquads(matchId: string, homeTeamId: string, awayTeamId: string, homePlayers: string[], awayPlayers: string[]) {
   const supabase = await createClient()
 
-  // Verify manager auth
-  const { data: userData } = await supabase.auth.getUser()
-  if (!userData?.user) return { error: 'Unauthorized' }
+  // MVP: Bypassing auth to allow public testing
+
 
   const squads = [
     ...homePlayers.map(playerId => ({ match_id: matchId, team_id: homeTeamId, player_id: playerId })),

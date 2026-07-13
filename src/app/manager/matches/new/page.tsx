@@ -5,17 +5,8 @@ import MatchCreationForm from './MatchCreationForm'
 export default async function NewMatchPage() {
   const supabase = await createClient()
 
-  // Verify Manager Auth
-  const { data: userData } = await supabase.auth.getUser()
-  if (!userData?.user) redirect('/register-club')
+  // MVP: Bypassing auth to allow public testing
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', userData.user.id)
-    .single()
-
-  if (profile?.role !== 'manager') redirect('/dashboard')
 
   // Fetch all clubs
   const { data: clubs } = await supabase.from('clubs').select('id, name').order('name')

@@ -6,17 +6,8 @@ export default async function SquadSetupPage({ params }: { params: Promise<{ id:
   const { id } = await params
   const supabase = await createClient()
 
-  // Verify Manager Auth
-  const { data: userData } = await supabase.auth.getUser()
-  if (!userData?.user) redirect('/register-club')
+  // MVP: Bypassing auth to allow public testing
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', userData.user.id)
-    .single()
-
-  if (profile?.role !== 'manager') redirect('/dashboard')
 
   // Fetch Match Details
   const { data: match, error: matchError } = await supabase

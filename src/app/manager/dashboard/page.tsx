@@ -5,31 +5,8 @@ import Link from 'next/link'
 export default async function ManagerDashboard() {
   const supabase = await createClient()
 
-  const { data: userData, error: userError } = await supabase.auth.getUser()
-
-  if (userError || !userData?.user) {
-    redirect('/register-club')
-  }
-
-  // Get Manager's Profile and Club Info
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role, club_id, clubs(name)')
-    .eq('id', userData.user.id)
-    .single()
-
-  if (!profile || (profile.role !== 'manager' && profile.role !== 'scorer')) {
-    return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4 text-white">
-        <div className="text-center bg-gray-800 p-8 rounded-2xl shadow-xl">
-          <h1 className="text-2xl font-bold text-red-400 mb-2">Access Denied</h1>
-          <p className="text-gray-400">You must be a club manager or scorer to view this page.</p>
-        </div>
-      </div>
-    )
-  }
-
-  const isManager = profile.role === 'manager';
+  // MVP: Bypassing auth to allow public testing of the dashboard
+  const isManager = true;
 
 
 
