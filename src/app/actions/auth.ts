@@ -74,7 +74,7 @@ export async function registerClub(formData: FormData) {
 }
 
 export async function loginUser(formData: FormData) {
-  const accessCode = (formData.get('accessCode') as string)?.toUpperCase()
+  const accessCode = (formData.get('accessCode') as string)?.toUpperCase()?.trim()
 
   if (!accessCode) {
     return { error: 'Access Code is required' }
