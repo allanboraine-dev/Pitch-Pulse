@@ -14,11 +14,14 @@ export default async function Home() {
     <div className="flex flex-col flex-1 items-center justify-center min-h-screen bg-transparent font-sans text-white">
       <main className="flex flex-col items-center justify-center p-8 max-w-2xl w-full text-center">
         
-        <div className="mb-12">
-          <h1 className="text-6xl font-black tracking-tighter mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-green-400">
+        <div className="mb-12 relative z-10 flex flex-col items-center">
+          <div className="w-32 h-32 md:w-48 md:h-48 mb-6 relative drop-shadow-2xl hover:scale-105 transition-transform duration-500">
+            <img src="/cricket_equipment.png" alt="Cricket Equipment" className="w-full h-full object-contain" />
+          </div>
+          <h1 className="text-6xl md:text-7xl font-black tracking-tighter mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-green-400 drop-shadow-sm">
             Pitch Pulse
           </h1>
-          <p className="text-xl text-gray-400 font-medium">
+          <p className="text-xl md:text-2xl text-gray-400 font-medium tracking-wide">
             Live Cricket Scoring & Fan Engagement
           </p>
         </div>

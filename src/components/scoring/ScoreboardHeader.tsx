@@ -157,7 +157,13 @@ export default function ScoreboardHeader({
           <table className="w-full text-left text-sm lg:text-base">
             <thead className="bg-gray-700/50 text-gray-400 text-xs uppercase tracking-wider">
               <tr>
-                <th className="px-4 py-2 font-medium">Batter</th>
+                <th className="px-4 py-2 font-medium flex items-center gap-2">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-400">
+                    <path d="M9.5 2.5L10.5 7.5L8 21.5H12L15 7.5L14.5 2.5H9.5Z" fill="currentColor" fillOpacity="0.2"/>
+                    <path d="M11.5 2V8M13.5 8H8.5" />
+                  </svg>
+                  Batter
+                </th>
                 <th className="px-4 py-2 font-medium text-right w-12">R</th>
                 <th className="px-4 py-2 font-medium text-right w-12">B</th>
                 <th className="px-4 py-2 font-medium text-right w-12 hidden sm:table-cell">4s</th>
@@ -197,10 +203,25 @@ export default function ScoreboardHeader({
             <table className="w-full text-left text-sm lg:text-base">
               <thead className="bg-gray-700/50 text-gray-400 text-xs uppercase tracking-wider">
                 <tr>
-                  <th className="px-4 py-2 font-medium">Bowler</th>
+                  <th className="px-4 py-2 font-medium flex items-center gap-2">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-red-400">
+                      <circle cx="12" cy="12" r="9" fill="currentColor" fillOpacity="0.2"/>
+                      <path d="M8 5.5C10 9 10 15 8 18.5" strokeDasharray="2 2" />
+                      <path d="M16 5.5C14 9 14 15 16 18.5" strokeDasharray="2 2" />
+                    </svg>
+                    Bowler
+                  </th>
                   <th className="px-4 py-2 font-medium text-right w-12">O</th>
                   <th className="px-4 py-2 font-medium text-right w-12">R</th>
-                  <th className="px-4 py-2 font-medium text-right w-12">W</th>
+                  <th className="px-4 py-2 font-medium text-right w-12">
+                    <div className="flex items-center justify-end gap-1">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-yellow-500 hidden sm:block">
+                        <path d="M6 5v16M12 5v16M18 5v16" />
+                        <path d="M4 5h16" />
+                      </svg>
+                      W
+                    </div>
+                  </th>
                   <th className="px-4 py-2 font-medium text-right w-16 hidden sm:table-cell">ECO</th>
                 </tr>
               </thead>
