@@ -18,16 +18,18 @@ export default async function ManagerDashboard() {
     .eq('id', userData.user.id)
     .single()
 
-  if (!profile || profile.role !== 'manager') {
+  if (!profile || (profile.role !== 'manager' && profile.role !== 'scorer')) {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4 text-white">
         <div className="text-center bg-gray-800 p-8 rounded-2xl shadow-xl">
           <h1 className="text-2xl font-bold text-red-400 mb-2">Access Denied</h1>
-          <p className="text-gray-400">You must be a club manager to view this page.</p>
+          <p className="text-gray-400">You must be a club manager or scorer to view this page.</p>
         </div>
       </div>
     )
   }
+
+  const isManager = profile.role === 'manager';
 
 
 
@@ -47,17 +49,21 @@ export default async function ManagerDashboard() {
         <header className="flex flex-col md:flex-row md:items-center justify-between border-b border-gray-800 pb-6 gap-6">
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-white mb-1">
-              Manager Dashboard
+              {isManager ? 'Manager Dashboard' : 'Scorer Dashboard'}
             </h1>
 
-            <Link 
-              href="/signup" 
-              className="bg-blue-900/40 text-blue-400 hover:bg-blue-900/60 hover:text-blue-300 text-sm px-3 py-1.5 rounded font-medium transition-colors border border-blue-900/50 inline-block"
-            >
-              Copy Player Signup Link
-            </Link>
+            {isManager && (
+              <Link 
+                href="/signup" 
+                className="bg-blue-900/40 text-blue-400 hover:bg-blue-900/60 hover:text-blue-300 text-sm px-3 py-1.5 rounded font-medium transition-colors border border-blue-900/50 inline-block mt-2"
+              >
+                Copy Player Signup Link
+              </Link>
+            )}
           </div>
-          <div className="flex flex-col sm:flex-row gap-3">
+          
+          {isManager && (
+            <div className="flex flex-col sm:flex-row gap-3">
             <Link 
               href="/manager/matches/new"
               className="bg-pitch-green hover:bg-emerald-600 text-white px-6 py-2.5 rounded-xl font-black uppercase tracking-widest transition-all flex items-center justify-center flex-1 sm:flex-none text-sm shadow-lg shadow-emerald-900/30 border border-emerald-500/50"
@@ -75,23 +81,28 @@ export default async function ManagerDashboard() {
               Bulk Fixtures
             </Link>
           </div>
+          )}
         </header>
 
         {/* My Matches / Scoring */}
         <section>
           <div className="flex justify-between items-end mb-4 border-b border-gray-800 pb-2">
-            <h2 className="text-xl font-semibold text-white">Upcoming & Active Matches (League)</h2>
-            <Link href="/manager/matches/new" className="text-sm font-bold text-blue-500 hover:text-blue-400">
-              + New Match
-            </Link>
+            <h2 className="text-xl font-semibold text-white">Scheduled Matches</h2>
+            {isManager && (
+              <Link href="/manager/matches/new" className="text-sm font-bold text-blue-500 hover:text-blue-400">
+                + New Match
+              </Link>
+            )}
           </div>
           
           {myMatches.length === 0 ? (
             <div className="bg-gray-900 border border-gray-800 rounded-xl p-8 text-center">
-              <p className="text-gray-400 mb-4">No active fixtures found for the league.</p>
-              <Link href="/manager/matches/new" className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg font-bold inline-block">
-                Create Match
-              </Link>
+              <p className="text-gray-400 mb-4">No scheduled matches found.</p>
+              {isManager && (
+                <Link href="/manager/matches/new" className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg font-bold inline-block">
+                  Create Match
+                </Link>
+              )}
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-4">
