@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react'
 import { computeScoreStats } from '@/utils/scoring'
+import { createClient } from '@/utils/supabase/client'
 
 export type DeliveryEvent = {
   id: string
@@ -65,6 +66,8 @@ export function useScoringEngine(matchId: string, maxOvers: number, homeTeam: Te
   const [pendingSync, setPendingSync] = useState<DeliveryEvent[]>([])
   const [isDeclared, setIsDeclared] = useState(false)
   const [hasLoadedLocalState, setHasLoadedLocalState] = useState(false)
+  
+  const supabase = createClient()
 
   // 1. Load from Local Storage on Mount
   useEffect(() => {
@@ -120,6 +123,24 @@ export function useScoringEngine(matchId: string, maxOvers: number, homeTeam: Te
     pendingSync,
     isDeclared
   ])
+
+  // 3. Sync active players to Supabase for Fan View
+  useEffect(() => {
+    if (!hasLoadedLocalState || !matchId) return;
+
+    const syncActivePlayers = async () => {
+      await supabase
+        .from('matches')
+        .update({
+          current_batter_id: currentBatterId,
+          current_non_striker_id: nonStrikerId,
+          current_bowler_id: currentBowlerId
+        })
+        .eq('id', matchId);
+    };
+
+    syncActivePlayers();
+  }, [matchId, currentBatterId, nonStrikerId, currentBowlerId, hasLoadedLocalState, supabase]);
 
   const initializeInnings = (battingId: string, bowlingId: string, batter1: string, batter2: string, bowler: string) => {
     setBattingTeamId(battingId)

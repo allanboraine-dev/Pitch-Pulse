@@ -21,7 +21,7 @@ export default function LiveScorecard({
   homeTeam: TeamInfo
   awayTeam: TeamInfo
 }) {
-  const { deliveries, innings1Stats, innings2Stats, isLoading } = useLiveScore(matchId, maxOvers)
+  const { deliveries, innings1Stats, innings2Stats, isLoading, activeMatchState } = useLiveScore(matchId, maxOvers)
   
   // By default, if innings 2 has started, show innings 2, otherwise show innings 1.
   // We use state to allow the user to toggle back and forth.
@@ -107,9 +107,9 @@ export default function LiveScorecard({
         ballsInCurrentOver={activeStats.ballsInCurrentOver}
         battingTeamName={battingTeamName}
         bowlingTeamName={bowlingTeamName}
-        currentBatterId={activeStats.inferredCurrentBatterId}
-        nonStrikerId={activeStats.inferredNonStrikerId}
-        currentBowlerId={activeStats.inferredCurrentBowlerId}
+        currentBatterId={activeMatchState?.striker_id || activeStats.inferredCurrentBatterId}
+        nonStrikerId={activeMatchState?.non_striker_id || activeStats.inferredNonStrikerId}
+        currentBowlerId={activeMatchState?.bowler_id || activeStats.inferredCurrentBowlerId}
         batterStats={activeStats.batterMap}
         bowlerStats={activeStats.bowlerMap}
         extras={activeStats.extrasBreakdown}

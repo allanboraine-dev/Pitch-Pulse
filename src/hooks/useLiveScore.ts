@@ -5,6 +5,11 @@ import { createClient } from '@/utils/supabase/client'
 
 export function useLiveScore(matchId: string, maxOvers: number) {
   const [deliveries, setDeliveries] = useState<DeliveryEvent[]>([])
+  const [activeMatchState, setActiveMatchState] = useState<{ striker_id: string | null, non_striker_id: string | null, bowler_id: string | null }>({
+    striker_id: null,
+    non_striker_id: null,
+    bowler_id: null
+  })
   const [isLoading, setIsLoading] = useState(true)
   const supabase = createClient()
 
@@ -39,7 +44,42 @@ export function useLiveScore(matchId: string, maxOvers: number) {
           setDeliveries((prev) => [...prev, payload.new as DeliveryEvent])
         }
       )
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'matches',
+          filter: `id=eq.${matchId}`,
+        },
+        (payload) => {
+          const m = payload.new as any;
+          setActiveMatchState({
+            striker_id: m.current_batter_id || null,
+            non_striker_id: m.current_non_striker_id || null,
+            bowler_id: m.current_bowler_id || null
+          })
+        }
+      )
       .subscribe()
+
+    // 3. Fetch initial match state
+    const fetchMatchState = async () => {
+      const { data } = await supabase
+        .from('matches')
+        .select('current_batter_id, current_non_striker_id, current_bowler_id')
+        .eq('id', matchId)
+        .single()
+      
+      if (data) {
+        setActiveMatchState({
+          striker_id: data.current_batter_id || null,
+          non_striker_id: data.current_non_striker_id || null,
+          bowler_id: data.current_bowler_id || null
+        })
+      }
+    }
+    fetchMatchState()
 
     return () => {
       supabase.removeChannel(channel)
@@ -56,5 +96,5 @@ export function useLiveScore(matchId: string, maxOvers: number) {
     return computeScoreStats(deliveries.filter(d => d.innings_id === 2), maxOvers, 2, false, target)
   }, [deliveries, maxOvers, innings1Stats.totalRuns])
 
-  return { deliveries, innings1Stats, innings2Stats, isLoading }
+  return { deliveries, innings1Stats, innings2Stats, isLoading, activeMatchState }
 }

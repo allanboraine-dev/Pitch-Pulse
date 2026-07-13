@@ -20,7 +20,7 @@ export default async function LiveMatchPage({ params }: { params: Promise<{ id: 
   // Fetch Squads
   const { data: squads, error: squadsError } = await supabase
     .from('match_squads')
-    .select('team_id, player:profiles(id, full_name)')
+    .select('team_id, profiles(id, full_name)')
     .eq('match_id', id)
 
   if (squadsError || !squads) {
@@ -29,10 +29,10 @@ export default async function LiveMatchPage({ params }: { params: Promise<{ id: 
 
   const homeSquad = squads
     .filter(s => s.team_id === match.home_team_id)
-    .map(s => s.player)
+    .map(s => s.profiles)
   const awaySquad = squads
     .filter(s => s.team_id === match.away_team_id)
-    .map(s => s.player)
+    .map(s => s.profiles)
 
   return (
     <LiveScorecard 
