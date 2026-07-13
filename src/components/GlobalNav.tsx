@@ -61,14 +61,6 @@ export default function GlobalNav() {
           </div>
 
           <div className="flex items-center gap-6">
-            {hasAccess && !isHome && (
-              <Link 
-                href="/directory" 
-                className="text-sm font-bold text-gray-300 hover:text-white px-4 py-2 rounded-xl hover:bg-gray-800/60 transition-colors border border-transparent hover:border-gray-700/50"
-              >
-                Directory
-              </Link>
-            )}
           </div>
         </div>
       </div>
