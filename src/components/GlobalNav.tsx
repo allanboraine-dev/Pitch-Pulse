@@ -2,10 +2,31 @@
 
 import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
+import { createClient } from '@/utils/supabase/client'
 
 export default function GlobalNav() {
   const router = useRouter()
   const pathname = usePathname()
+  const [hasAccess, setHasAccess] = useState(false)
+
+  useEffect(() => {
+    const supabase = createClient()
+    
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setHasAccess(!!user)
+    })
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setHasAccess(!!session?.user)
+      }
+    )
+
+    return () => {
+      authListener.subscription.unsubscribe()
+    }
+  }, [])
 
   const isHome = pathname === '/'
   
@@ -40,12 +61,14 @@ export default function GlobalNav() {
           </div>
 
           <div className="flex items-center gap-6">
-             <Link 
-              href="/directory" 
-              className="text-sm font-bold text-gray-300 hover:text-white px-4 py-2 rounded-xl hover:bg-gray-800/60 transition-colors border border-transparent hover:border-gray-700/50"
-            >
-              Directory
-            </Link>
+            {hasAccess && (
+              <Link 
+                href="/directory" 
+                className="text-sm font-bold text-gray-300 hover:text-white px-4 py-2 rounded-xl hover:bg-gray-800/60 transition-colors border border-transparent hover:border-gray-700/50"
+              >
+                Directory
+              </Link>
+            )}
           </div>
         </div>
       </div>
